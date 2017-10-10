@@ -7,10 +7,26 @@ require 'random_data'
         )
 end
 
+
 Post.find_or_create_by(
     title: "Unique Title",
     body: "Unique Body"
     )
+
+10.times do
+    Advertisement.create!(
+        title: RandomData.random_sentence,
+        body: RandomData.random_paragraph,
+        price: rand(1..100)
+        )
+end
+
+Advertisement.find_or_create_by(
+    title: "Unique Title",
+    body: "Unique Body",
+    price: 1
+    )
+
 
 posts = Post.all
 
@@ -29,3 +45,4 @@ Comment.find_or_create_by(
 puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
+puts "#{Advertisement.count} advertisements created"
