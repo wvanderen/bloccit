@@ -22,6 +22,22 @@ Post.find_or_create_by(
     body: "Unique Body"
     )
 
+10.times do
+    SponsoredPost.create!(
+        title: RandomData.random_sentence,
+        body: RandomData.random_paragraph,
+        price: rand(1..100)
+        )
+end
+
+SponsoredPost.find_or_create_by(
+    title: "Unique Title",
+    body: "Unique Body",
+    price: 1
+    )
+
+
+
 50.times do
     Question.create!(
         title: RandomData.random_sentence,
@@ -71,4 +87,5 @@ puts "#{Topic.count} topics created"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
 puts "#{Advertisement.count} advertisements created"
+puts "#{SponsoredPost.count} sponsored posts created"
 puts "#{Question.count} questions created"
