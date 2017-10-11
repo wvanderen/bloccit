@@ -13,6 +13,21 @@ Post.find_or_create_by(
     body: "Unique Body"
     )
 
+50.times do
+    Question.create!(
+        title: RandomData.random_sentence,
+        body: RandomData.random_paragraph,
+        resolved: rand(0..1)
+        )
+end
+
+
+Question.find_or_create_by(
+    title: "Unique Title",
+    body: "Unique Body",
+    resolved: false
+    )
+
 10.times do
     Advertisement.create!(
         title: RandomData.random_sentence,
@@ -46,3 +61,4 @@ puts "Seed finished"
 puts "#{Post.count} posts created"
 puts "#{Comment.count} comments created"
 puts "#{Advertisement.count} advertisements created"
+puts "#{Question.count} questions created"
