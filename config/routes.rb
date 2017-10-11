@@ -7,11 +7,12 @@ Rails.application.routes.draw do
   get 'questions/new'
 
   get 'questions/edit'
-
+  
+  resources :topics do
+    resources :posts, except: [:index]
+  end
+  
   resources :advertisements
-  
-  resources :posts
-  
   resources :questions
 
   get 'about' => 'welcome#about'
