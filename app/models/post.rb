@@ -4,12 +4,11 @@ class Post < ActiveRecord::Base
     has_many :comments, dependent: :destroy
     has_many :votes, dependent: :destroy
     has_many :favorites, dependent: :destroy
-    
-    after_create :add_favorite_for_user
-    
+
     default_scope { order('rank DESC') }
     #scope :ordered_by_title, -> { reorder(title: :asc) }
     #scope :ordered_by_reverse_created, -> { reorder('created_at DESC').reverse_order }
+    scope :visible_to, -> (user) { user ? all : joins(:topic).where('topics.public' => true) }
     
     validates :title, length: { minimum: 5 }, presence: true
     validates :body, length: { minimum: 20 }, presence: true
@@ -34,10 +33,4 @@ class Post < ActiveRecord::Base
         update_attribute(:rank, new_rank)
     end
     
-    private
-    
-    def add_favorite_for_user
-        favorite.create(post: slef, user: self.user)
-        favoriteMailer.new_post(self).deliver_now
-    end
 end
