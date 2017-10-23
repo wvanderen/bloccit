@@ -5,6 +5,8 @@ class Post < ActiveRecord::Base
     has_many :votes, dependent: :destroy
     has_many :favorites, dependent: :destroy
     
+    after_create :add_favorite_for_user
+    
     default_scope { order('rank DESC') }
     #scope :ordered_by_title, -> { reorder(title: :asc) }
     #scope :ordered_by_reverse_created, -> { reorder('created_at DESC').reverse_order }
@@ -30,5 +32,12 @@ class Post < ActiveRecord::Base
         age_in_days = (created_at - Time.new(1970,1,1)) / 1.day.seconds
         new_rank = points + age_in_days
         update_attribute(:rank, new_rank)
+    end
+    
+    private
+    
+    def add_favorite_for_user
+        favorite.create(post: slef, user: self.user)
+        favoriteMailer.new_post(self).deliver_now
     end
 end
