@@ -20,7 +20,36 @@
 </div>
 
 <h2>Posts</h2>
-<%= render @user.posts %>
+    <%= render @user.posts %>
+    <% if user_has_no_posts %>
+        <h5><%= @user.name + " has not submitted any posts yet." %></h5>
+    <% end %>
 
 <h2>Comments</h2>
-<%= render @user.comments %>
+    <%= render @user.comments %>
+    <% if user_has_no_comments %>
+        <h5><%= @user.name + " has not submitted any comments yet." %></h5>
+    <% end %>
+    
+<h2>Favorited Posts</h2>
+    <% user_favorites(@user).each do |favorite| %>
+        <% post = favorite.post %>
+        <div class="media">
+           <div class="media-body">
+                <% avatar_url = post.user.avatar_url(64) %>
+                <% if avatar_url %>
+                    <div class="media-left">
+                        <%= image_tag avatar_url, class: 'media-object' %>
+                    </div>
+            <% end %>
+             <h4 class="media-heading">
+               <%= link_to post.title, topic_post_path(post.topic, post) %>
+             </h4>
+             <small>
+               submitted <%= time_ago_in_words(post.created_at) %> ago by <%= post.user.name %> <br>
+               <%= post.comments.count %> Comments
+             </small>
+           </div>
+         </div>
+    <% end %>
+  

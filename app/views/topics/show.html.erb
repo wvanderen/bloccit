@@ -10,7 +10,6 @@
         <p class="lead"><%= @topic.description %></p>
         <% @topic.posts.each do |post| %>
             <div class="media">
-                <%= render partial: 'votes/voting', locals: { post: post } %>
                 <%= render post %>
             </div>
         <% end %>
